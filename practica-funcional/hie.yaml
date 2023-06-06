@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "practica-funcional:lib"
+
+    - path: "./test"
+      component: "practica-funcional:test:practica-funcional-test"
