@@ -147,4 +147,11 @@ deltaTourSegun indice turista tour = (indice . hacerTour tour) turista - indice 
 
 -- a) repeat irALaPlaya
 
--- No quiero pensar tanto
+-- b) Si, se puede saber, ya que la primera excursion (irALaPlaya) cumple la condicion
+--    entonces any no evalua ningun otro elemento.
+--    No se puede saber si es convincente para beto ya que ninguna de las excursiones cumplen con la condicion,
+--    entonces any evalua continuamente la lista infinita buscando alguna que lo haga.
+
+-- c) No, ya que calcular la espiritualidad involucra hacer el tour, cosa que no se puede hacer, y
+--    ademas tampoco se puede saber a que turistas no le es convincente.
+--    Solo se puede conocer la espiritualidad si se le provee a la funcion una lista vacia de turistas.
