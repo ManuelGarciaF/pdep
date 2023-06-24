@@ -1,9 +1,3 @@
-%% % lenguaje/1
-%% lenguaje(haskell).
-%% lenguaje(cpp).
-%% lenguaje(python).
-%% lenguaje(html).
-
 % implementa/2 lenguaje con paradigma
 implementa(haskell, funcional).
 implementa(cpp, imperativo).
@@ -27,3 +21,22 @@ lenguajeMultiparadigma(Lenguaje):-
     implementa(Lenguaje, P1),
     implementa(Lenguaje, P2),
     P1 \= P2.
+
+% Clase 2 24/6
+
+% suma/2 Suma de elementos de una lista.
+suma([],0).
+suma([H|T], Resultado):-
+    suma(T, SumaT),
+    Resultado is H + SumaT.
+
+% miembro/2 Elemento es miembro de la lista.
+miembro(X, [X|_]).
+miembro(X, [_|T]):-
+    member(X, T).
+
+% revertir/2
+revertir([], []).
+revertir([H|T], L):-
+    revertir(T, RT),
+    append(RT,[H],L).
