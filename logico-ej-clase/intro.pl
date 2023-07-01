@@ -40,3 +40,29 @@ revertir([], []).
 revertir([H|T], L):-
     revertir(T, RT),
     append(RT,[H],L).
+
+%factorial/1
+factorial(0,1).
+factorial(Numero, Factorial) :-
+    Numero >= 0, % Para cortar el caso recursivo y hacer que use la otra definicion.
+    Anterior is Numero - 1,
+    factorial(Anterior, FAnterior),
+    Factorial is Numero * FAnterior.
+
+% Clase 3 01/07
+
+%padre/2
+padre(homero, bart).
+padre(abraham, homero).
+
+%ancestro/2
+ancestro(Ancestro, Persona):-
+    padre(Ancestro, Persona).
+ancestro(Ancestro, Persona):-
+    padre(Padre, Persona),
+    ancestro(Ancestro, Padre).
+
+%appendar/3
+appendar([], L, L).
+appendar([H|T], L2, [H|TLista]) :-
+    appendar(T, L2, TLista).
