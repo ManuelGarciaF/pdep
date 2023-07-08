@@ -131,6 +131,6 @@ filter(Condicion,[H|T],L):-
     not(call(Condicion, H)),    % Si la condicion no se cumple
     filter(Condicion, T, L).
 
-platoCopadoKosher2(Kortes):-    % Implementacion con filter
+platoKosher(Kortes):-
     platoCopado(Cortes),
     include(esKosher, Cortes, Kortes).
