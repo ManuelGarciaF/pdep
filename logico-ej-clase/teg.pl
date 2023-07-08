@@ -61,6 +61,9 @@ objetivo(azul, ocuparPaises([argentina, bolivia, francia, inglaterra, china])).
 objetivo(verde, destruirJugador(rojo)).
 objetivo(negro, ocuparContinente(europa)).
 
+jugador(Jugador):-
+    objetivo(Jugador, _).
+
 % estaEnContinente(Jugador,Continente)
 estaEnContinente(Jugador, Continente):-
     paisContinente(Continente, Pais),
@@ -69,7 +72,7 @@ estaEnContinente(Jugador, Continente):-
 cantidadPaises(Jugador, Cantidad):-
     % Generar un valor para el jugador, esto unifica la variable con un jugador en
     % particular antes de pasarlo a la consulta del findall.
-    objetivo(Jugador, _),
+    jugador(Jugador),
     findall(Pais, ocupa(Pais, Jugador, _), Paises),
     length(Paises, Cantidad).
 
@@ -78,13 +81,53 @@ ocupaContinente(Jugador, Continente):-
     not((estaEnContinente(Jugador2, Continente), Jugador2 \= Jugador)).
 
 ocupaContinente2(Jugador, Continente):-
-    objetivo(Jugador, _), %Generamos para checkear un solo continente de un solo jugador
+    % Generamos para checkear un solo continente de un solo jugador
+    jugador(Jugador),
     continente(Continente),
     forall(paisContinente(Continente, Pais), ocupa(Pais, Jugador)).
 
 leFaltaMucho(Jugador, Continente):-
-    objetivo(Jugador, _),
+    jugador(Jugador),
     continente(Continente),
     findall(Pais, (paisContinente(Continente, Pais), not(ocupa(Pais, Jugador))), PaisesDelContinente),
-    length(Paises, CantidadPaises),
+    length(PaisesDelContinente, CantidadPaises),
     CantidadPaises > 2.
+
+sonLimitrofes(Pais1, Pais2):-
+    limitrofes(Paises),
+    member(Pais1, Paises),
+    member(Pais2, Paises),
+    Pais1 \= Pais2.
+
+esGroso(Jugador):-
+    jugador(Jugador),
+    forall(paisImportante(Pais), ocupa(Pais, Jugador)).
+esGroso(Jugador):-
+    cantidadPaises(Jugador, Cantidad),
+    Cantidad > 10.
+esGroso(Jugador):- % Complicandola para demostrar el uso de maplist
+    jugador(Jugador),
+    findall(Pais, ocupa(Pais, Jugador), Paises),
+    maplist(ejercitosEn, Paises, Cantidades),
+    sum_list(Cantidades, Total),
+    Total > 50.
+
+ejercitosEn(Pais, Cantidad):-
+    ocupa(Pais, _, Cantidad).
+
+estaEnElHorno(Pais):-
+    ocupa(Pais, Jugador),
+    jugador(Jugador2),
+    Jugador \= Jugador2,
+    forall(sonLimitrofes(Pais,Limitrofe), ocupa(Limitrofe, Jugador2)).
+
+ganadooor(Jugador):-
+    objetivo(Jugador, Objetivo),
+    cumpleObjetivo(Jugador, Objetivo).
+
+cumpleObjetivo(Jugador, ocuparContinente(Continente)):-
+    ocupaContinente(Jugador, Continente).
+cumpleObjetivo(Jugador, ocuparPaises(Paises)):-
+    forall(member(Pais, Paises), ocupa(Pais, Jugador)).
+cumpleObjetivo(Jugador, destruirJugador(JugadorADestruir)):-
+    not(ocupa(_, JugadorADestruir)).

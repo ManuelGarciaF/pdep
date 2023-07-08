@@ -51,3 +51,14 @@ canieriaBienArmada([CanieriaOPieza|CanieriasOPiezas]):-
     puedoEnchufar(CanieriaOPieza,CanieriasOPiezas), % Acomplamiento minimo
     canieriaBienArmada([CanieriaOPieza]),
     canieriaBienArmada(CanieriasOPiezas).
+
+% canieriaLegal/2
+canieriaLegal(Piezas, Canieria):-
+    permutation(Piezas, Canieria),
+    canieriaBienArmada(Canieria).
+
+% Implementacion casera de permutation
+permutation([],[]).
+permutation(Lista1, [H|T]):-
+    select(H, Lista1, Resto), % El primer elemento de la permutacion esta en la lista
+    permutation(Resto, T).    % El resto de los elementos estan en el resto de la permutacion
