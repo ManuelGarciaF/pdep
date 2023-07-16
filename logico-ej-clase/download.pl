@@ -129,4 +129,4 @@ servidorMasLiviano(Empresa, Servidor):-
 
 balancearServidor(Empresa, ServidorCargado, ServidorLiviano):-
     tieneMuchaCarga(Empresa, ServidorCargado),
-    servidorMasLiviano(Empresa, ServidorMasLiviano).
+    servidorMasLiviano(Empresa, ServidorLiviano).
