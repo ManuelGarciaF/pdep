@@ -1,0 +1,94 @@
+import rolandoPersonaje.*
+import rolandoArtefactos.*
+import rolandoHechizos.*
+
+const espectroMalefico = new HechizoDeLogo(nombre="espectro maléfico", multiplicador=1)
+const rolando = new Personaje(hechizoPreferido=espectroMalefico)
+const mascaraOscura = new Mascara(indiceDeOscuridad=1)
+
+describe "Punto 1 - Hechiceria" {
+
+	// Permite establecer el escenario de pruebas para todas las pruebas del conjunto.
+//	method initialize() {
+//		rolando.hechizoPreferido(espectroMalefico)
+//		espectroMalefico.nombre("espectro maléfico")
+//	}
+	
+	test "Nivel de hechiceria de rolando básico" {
+		assert.equals(56, rolando.nivelDeHechiceria())
+	}
+	test "Nivel de hechiceria de rolando con espectro supermalefico" {
+		const espectroSuperMalefico = new HechizoDeLogo(nombre="espectro superrecontramalefico muajajaja", multiplicador=1)
+		rolando.hechizoPreferido(espectroSuperMalefico)
+		assert.equals(125, rolando.nivelDeHechiceria())
+	}
+	test "Nivel de hechiceria de rolando con hechizo basico" {
+		rolando.hechizoPreferido(hechizoBasico)
+		assert.equals(35, rolando.nivelDeHechiceria())
+	}
+	test "Nivel de hechiceria de rolando luego de un eclipse" {
+		fuerzaOscura.provocarEclipse()
+		assert.equals(61, rolando.nivelDeHechiceria())
+	}
+	test "El espectro malefico es poderoso" {
+		assert.that(espectroMalefico.esPoderoso())
+	}
+	test "El espectro malefico no es poderoso si se llama pepe" {
+		const pepe = new HechizoDeLogo(nombre="espectro superrecontramalefico muajajaja", multiplicador=1)
+		assert.that(pepe.esPoderoso())
+	}
+	test "El hechizo basico no es poderoso" {
+		assert.notThat(hechizoBasico.esPoderoso())
+	}
+}
+
+
+describe "Punto 2 - Lucha" {
+	method initialize() {
+		rolando.agregarArtefacto(arma)
+		rolando.agregarArtefacto(collarDivino)
+		rolando.agregarArtefacto(mascaraOscura)
+	}
+	
+	method nuevoArtefacto(unidadesDeLucha) =
+		object {
+			method unidadesDeLucha(_personaje) = unidadesDeLucha
+		}
+	
+	test "Valor de lucha de Rolando sin artefactos" {
+		rolando.removerArtefacto(arma)
+		rolando.removerArtefacto(collarDivino)
+		rolando.removerArtefacto(mascaraOscura)
+		assert.equals(1, rolando.valorDeLucha())
+	}
+	
+	test "Valor de lucha de Rolando por defecto" {
+		assert.equals(13, rolando.valorDeLucha())
+	}
+	
+	test "Valor de lucha de Rolando con collar divino de 3 perlas" {
+		collarDivino.cantidadDePerlas(3)
+		assert.equals(11, rolando.valorDeLucha())
+	}
+	
+	test "Valor de lucha de Rolando con valor base de lucha de 8" {
+		rolando.valorBaseLucha(8)
+		assert.equals(20, rolando.valorDeLucha())
+	}
+	
+	test "Unidades de lucha de la máscara oscura tras eclipse" {
+		fuerzaOscura.provocarEclipse()
+		assert.equals(5, mascaraOscura.unidadesDeLucha(rolando))
+	}
+	
+	test "Valor de lucha de Rolando sin máscara oscura" {
+		rolando.removerArtefacto(mascaraOscura)
+		assert.equals(9, rolando.valorDeLucha())
+	}
+	
+	test "Valor de lucha de Rolando con artefacto de 1000 unidades de lucha" {
+		const nuevoArtefacto = self.nuevoArtefacto(1000)
+		rolando.agregarArtefacto(nuevoArtefacto)
+		assert.equals(1013, rolando.valorDeLucha())
+	}
+}

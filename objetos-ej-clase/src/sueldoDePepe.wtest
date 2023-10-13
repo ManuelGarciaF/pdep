@@ -1,0 +1,50 @@
+import sueldoDePepe.*
+
+describe "Tests de Pepe" {		
+	test "Pepe sin bonos siendo cadete" {
+		assert.equals(1500, pepe.sueldo())
+	}
+	
+	test "Pepe sin bonos siendo gerente" {
+		pepe.puesto(gerente)
+		assert.equals(1000, pepe.sueldo())
+	}
+	
+	test "Pepe cadete con bono de presentismo sin faltas" {
+		pepe.bonoPorPresentismo(presentismo)
+		assert.equals(1600, pepe.sueldo())
+	}
+	test "Pepe cadete con bono de presentismo y 1 falta" {
+		pepe.bonoPorPresentismo(presentismo)
+		pepe.faltas(1)
+		assert.equals(1550, pepe.sueldo())
+	}
+	
+	test "Pepe cadete con bono de presentismo y más de 1 falta" {
+		pepe.bonoPorPresentismo(presentismo)
+		pepe.faltas(42)
+		assert.equals(1500, pepe.sueldo())
+	}
+	
+	test "Pepe cadete con bono de resultados fijo" {
+		pepe.bonoPorResultados(resultadoFijo)
+		assert.equals(1580, pepe.sueldo())
+	}
+	
+	test "Pepe gerente con bono de resultados fijo" {
+		pepe.puesto(gerente)
+		pepe.bonoPorResultados(resultadoFijo)
+		assert.equals(1080, pepe.sueldo())
+	}
+	
+	test "Pepe cadete con bono de resultados variable" {
+		pepe.bonoPorResultados(resultadoVariable)
+		assert.equals(1650, pepe.sueldo())
+	}
+	
+	test "Pepe gerente con bono de resultados variable" {
+		pepe.puesto(gerente)
+		pepe.bonoPorResultados(resultadoVariable)
+		assert.equals(1100, pepe.sueldo())
+	}
+}
