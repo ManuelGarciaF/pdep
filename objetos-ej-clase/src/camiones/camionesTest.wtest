@@ -1,0 +1,5 @@
+import camiones.*
+
+test "testX" {
+	assert.that(true)
+}
